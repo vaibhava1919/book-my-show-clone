@@ -16,8 +16,17 @@ function MoviePage() {
 
   const { movie, setMovie } = useContext(MovieContext);
   const [cast, setCast] = useState([]);
-  const [similarMovies, setSimilarMovies] = useState([]);
+  const [similarMovies, setSimilarMovies] = useState([]); //eslint-disable-next-line
   const [recommendedMovies, setRecommendedMovies] = useState([]);
+
+  useEffect(() => {
+    const requestMovie = async () => {
+      const getMovieData = await axios.get(`/movie/${id}`);
+      setMovie(getMovieData.data);
+    };
+
+    requestMovie();
+  }, [id,setMovie]);
 
   useEffect(() => {
     const requestCast = async () => {
@@ -35,7 +44,7 @@ function MoviePage() {
     };
 
     requestSimilarMovies();
-  }, [id]);
+  }, [id,similarMovies]);
 
   useEffect(() => {
     const requestRecommendedMovies = async () => {
@@ -46,17 +55,10 @@ function MoviePage() {
     requestRecommendedMovies();
   }, [id]);
 
-  useEffect(() => {
-    const requestMovie = async () => {
-      const getMovieData = await axios.get(`/movie/${id}`);
-      setMovie(getMovieData.data);
-    };
-
-    requestMovie();
-  }, [id]);
+  
 
 
-  const settingCast = {  
+  const settingCast = { 
     infinite: false,
     speed: 500,
     slidesToShow: 6,
@@ -171,44 +173,50 @@ function MoviePage() {
           <hr />
         </div>
 
-        {/* {Cast slider} */}
-
-        <div className='my-8'>
-          <h2 className='text-gray-800 font-bold text-2xl mb-4'>
+       {/* Cast Slider */}
+       <div className="my-8">
+          <h2 className="text-gray-800 font-bold text-2xl mb-4">
             Cast and Crew
           </h2>
-          <Slider {...settings}>
+          <Slider {...settingCast}>
             {cast.map((castData) => (
-              <Cast image={castData.profile_path} castName={castData.original_name} role={castData.character} />
+              <Cast
+                image={castData.profile_path}
+                castName={castData.original_name}
+                role={castData.character}
+              />
             ))}
           </Slider>
         </div>
 
-        <div className='my-8'>
+        <div className="my-8">
           <hr />
         </div>
 
         {/* recommended movies slider */}
+        <div className="my-8">
+          <PosterSlider
+            config={settings}
+            title="Recommended Movies"
+            posters={recommendedMovies}
+            isDark={false}
+          />
+        </div>
 
-        <PosterSlider
-          title="Recommended movies"
-          posters={recommendedMovies}
-          isDark={false}
-        />
-
-        <div className='my-8'>
+        <div className="my-8">
           <hr />
         </div>
+
         {/* recommended movies slider */}
         <PosterSlider
+          config={settings}
           title="BMS XCLUSICE"
           posters={recommendedMovies}
           isDark={false}
         />
-
       </div>
     </>
-  )
-}
+  );
+};
 
-export default MovieLayoutHoc(MoviePage)
+export default MovieLayoutHoc(MoviePage);
