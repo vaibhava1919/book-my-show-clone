@@ -16,7 +16,7 @@ function MoviePage() {
 
   const { movie, setMovie } = useContext(MovieContext);
   const [cast, setCast] = useState([]);
-  const [similarMovies, setSimilarMovies] = useState([]);//eslint-disable-line
+  const [similarMovies, setSimilarMovies] = useState([]);
   const [recommendedMovies, setRecommendedMovies] = useState([]);
 
   useEffect(() => {
@@ -53,10 +53,10 @@ function MoviePage() {
     };
 
     requestMovie();
-  }, [id]);//eslint-disable-line
+  }, [id]);
 
 
-  const settingCast = {  //eslint-disable-line
+  const settingCast = {  
     infinite: false,
     speed: 500,
     slidesToShow: 6,
