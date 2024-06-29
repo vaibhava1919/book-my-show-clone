@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import { Slideshow } from 'react-icons/bi';
 import HeroSlider from 'react-slick';
 import { NextArrow, PrevArrow } from './Arrows.component';
 
